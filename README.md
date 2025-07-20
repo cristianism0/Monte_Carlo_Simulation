@@ -1,7 +1,7 @@
 ---
 ## Monte Carlo Simulation For Portfolios Weights
 
-Esse projeto serve para a análise de pesos de portfólios usando a simulação de monte carlos.
+Esse projeto serve para a análise de pesos de portfólios usando a simulação de Monte Carlos.
 ##### Pontos para a criação dele:
-- Aprendizado em Julia para computação científica e calculos em alta perfomance.
-- Melhorar python e a análise de dados usando Jupyter.
+- Projeto em Python usando alguns conceitos de CRUD.
+- Melhorar Python e a análise de dados usando Jupyter.

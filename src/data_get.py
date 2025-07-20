@@ -1,20 +1,25 @@
 import pandas as pd
 
-
-def Df_get () -> pd.DataFrame:
-    """Get data from Yahoo Finance for Microsoft, Apple, and Nvidia."""
+def data_request() -> pd.DataFrame:
+    """Request data from Yahoo Finances using yfinance module"""
     import yfinance as yf
     try:
-        all_ticker = yf.download('MSFT AAPL NVDA', period="10y", group_by='ticker')  #download data
+        stocks = yf.download('MSFT AAPL NVDA LCID QS WBD NU TSLA INTC RIOT', period="10y", group_by='ticker')  #download data
     except ConnectionError:
         print("Connection error. Please check your internet connection.")
         return pd.DataFrame()  # Return an empty DataFrame if download fails
-    try:
-        with open('data/raw_data.csv', 'w') as f:
-            all_ticker.to_csv(f)
-    except PermissionError:
-        print("Permission error. Please check if the file is open or if you have write permissions.")
-        return pd.DataFrame()
-    return all_ticker
+    return stocks
 
-Df_get()
+def calc_returns(stocks):
+    """Get all Close Columns for each stock"""
+    close_columns = [col for col in stocks.columns if 'Close' in col]
+    close_prices = stocks[close_columns].copy()
+    
+    # Renomeia colunas para ficar mais limpo: ('AAPL', 'Close') -> 'AAPL'
+    close_prices.columns = [col[0] for col in close_prices.columns]
+    
+    returns = close_prices.pct_change().dropna()  
+    covReturns = returns.cov()
+    meanReturns = returns.mean()
+    
+    return covReturns, meanReturns
